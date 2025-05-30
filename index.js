@@ -1,5 +1,8 @@
 const express = require('express');
 
+const authRoutes = require ('./src/routes/AuthRoutes');
+const coursesRouter = require ('./src/routes/CourseRoutes');
+
 // Permite acceder a las variables de entorno declaradas en el archivo .env
 require('dotenv').config();
 
@@ -21,9 +24,10 @@ app.use( express.static( 'public' ) );
 app.use( express.json() );
 
 // Rutas
-// Asocio el Path que se usara con la localización interna.
-app.use('/api/auth' ,  require('./src/routes/AuthRoutes') ) ;
-app.use('/api/courses' , require('./src/routes/CourseRoutes') );
+// Asocio el Path que se usara, con la localización interna.
+app.use( '/api/auth' , authRoutes  ) ;
+app.use( '/api/courses' , coursesRouter );
+
 
 app.listen( process.env.PORT , () => {
     console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);

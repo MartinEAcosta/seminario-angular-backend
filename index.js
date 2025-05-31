@@ -9,11 +9,11 @@ require('dotenv').config();
 // Permite el filtrado de peticiones
 const cors = require('cors');
 
-// const { dbConnection } = require('./database/config');
+const { dbConnection } = require('./src/database/config');
 
 const app = express();
 
-// dbConnection();
+dbConnection();
 
 app.use( cors() );
 

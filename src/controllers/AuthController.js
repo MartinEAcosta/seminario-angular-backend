@@ -41,7 +41,7 @@ const registerUser = async( req , res = response ) => {
     catch(error){
 
         console.log(error);
-        return res.status(400).json({
+        return res.status(500).json({
             ok : false,
             errorMessage : "Hubo un error en la creación del usuario. Intente nuevamente."
         });
@@ -54,17 +54,42 @@ const loginUser = async( req , res = response ) => {
 
     try{
 
-        
+        let userRef = await User.findOne({ 'email' : email });
 
+        if( userRef ){
 
+            const isPasswordLegit = bcrypt.compareSync( password , userRef.password );
+
+            if( isPasswordLegit ){
+                
+                const token = await generateJWT( userRef._id , userRef.email );
+
+                return res.status(200).json({
+                    ok : true, 
+                    errorMessage : undefined,
+                    userRef,
+                    token,
+                });
+
+            }
+
+            return res.status(404).json({
+                ok : false, 
+                errorMessage : 'Chequee las credenciales y vuelva a intentarlo.'
+            });
+
+        }
     }
     catch(error) {
-
-
         console.log(error);
+        return res.status(500).json({
+            ok : false,
+            errorMessage : "Hubo un error en el inicio de sesión. Intente nuevamente."
+        });
     }
 }
 
 module.exports = {
     registerUser,
+    loginUser,
 }

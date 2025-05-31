@@ -6,17 +6,24 @@
 */ 
 
 const { Router } = require('express');
-const { registerUser } = require('../controllers/AuthController');
+const { registerUser , loginUser } = require('../controllers/AuthController');
 
 
 const router = Router();
 
 
+// TODO: Agregar los middlewares de verificación.
+
+router.post( 
+    '/new',
+    registerUser
+);
+
+
 router.post( 
     '/',
-    registerUser
-)
-
+    loginUser
+);
 
 
 

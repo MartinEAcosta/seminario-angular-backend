@@ -1,5 +1,7 @@
 const { response } = require('express');
+const bcrypt =  require('bcrypt');
 const User = require('../models/UserModel');
+const { generateJWT } = require('../helpers/generateJWT');
 
 
 const registerUser = async( req , res = response ) => {
@@ -8,9 +10,7 @@ const registerUser = async( req , res = response ) => {
 
     try{
 
-        let  userRef = await User.findOne({ 'email' : email });
-
-        console.log(userRef);
+        let userRef = await User.findOne({ 'email' : email });
 
         if( userRef ) {
             return res.status(404).json({
@@ -20,20 +20,22 @@ const registerUser = async( req , res = response ) => {
         }
 
         // TODO : Hashear la pass y agregar JWT
+        userRef = new User( req.body );
 
-        userRef = {
-            username,
-            email,
-            password,
-        };
+        const salt =  bcrypt.genSaltSync( );
+        const passwordHashed = bcrypt.hashSync( password , salt );
+        
+        userRef.password = passwordHashed;
+        
+        await userRef.save();
 
-         userRef = await User.create( userRef );
-
+        const token = await generateJWT( userRef.email , userRef._id );
         
         return res.status(200).json({
             ok : true,
             errorMessage : undefined,
             userRef,
+            token,
         });
     }
     catch(error){
@@ -43,6 +45,23 @@ const registerUser = async( req , res = response ) => {
             ok : false,
             errorMessage : "Hubo un error en la creación del usuario. Intente nuevamente."
         });
+    }
+}
+
+const loginUser = async( req , res = response ) => {
+
+    const { email , password } = req.body;
+
+    try{
+
+        
+
+
+    }
+    catch(error) {
+
+
+        console.log(error);
     }
 }
 

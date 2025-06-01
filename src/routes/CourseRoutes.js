@@ -6,7 +6,7 @@
 */ 
 
 const { Router } = require('express');
-const { getCourses , createCourse } = require('../controllers/CourseController');
+const { getAllCourses , createCourse , updateCourse } = require('../controllers/CourseController');
 
 
 const router = Router();
@@ -14,7 +14,7 @@ const router = Router();
 // GetAll Courses
 router.get(
   '/',
-  getCourses
+  getAllCourses
 )
 
 // Create Course
@@ -23,7 +23,11 @@ router.post(
   createCourse
 )
 
-
+// Edit Course 
+router.put(
+  '/update/:id',
+  updateCourse
+)
 
 
 

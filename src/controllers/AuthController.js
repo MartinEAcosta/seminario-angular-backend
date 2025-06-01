@@ -60,24 +60,21 @@ const loginUser = async( req , res = response ) => {
 
             const isPasswordLegit = bcrypt.compareSync( password , userRef.password );
 
-            if( isPasswordLegit ){
-                
-                const token = await generateJWT( userRef._id , userRef.email );
-
-                return res.status(200).json({
-                    ok : true, 
-                    errorMessage : undefined,
-                    userRef,
-                    token,
+            if( !isPasswordLegit ){
+                return res.status(404).json({
+                    ok : false, 
+                    errorMessage : 'Chequee las credenciales y vuelva a intentarlo.'
                 });
-
             }
 
-            return res.status(404).json({
-                ok : false, 
-                errorMessage : 'Chequee las credenciales y vuelva a intentarlo.'
-            });
+            const token = await generateJWT( userRef._id , userRef.email );
 
+            return res.status(200).json({
+                ok : true, 
+                errorMessage : undefined,
+                userRef,
+                token,
+            });
         }
     }
     catch(error) {

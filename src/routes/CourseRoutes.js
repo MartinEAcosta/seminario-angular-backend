@@ -6,7 +6,7 @@
 */ 
 
 const { Router } = require('express');
-const { getAllCourses , createCourse , updateCourse } = require('../controllers/CourseController');
+const { getAllCourses , createCourse , updateCourse , deleteCourse } = require('../controllers/CourseController');
 
 
 const router = Router();
@@ -29,6 +29,11 @@ router.put(
   updateCourse
 )
 
+// Delete Course
+router.delete(
+  '/delete/:id',
+  deleteCourse
+)
 
 
 

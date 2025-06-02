@@ -127,9 +127,49 @@ const updateCourse = async( req , res = response ) => {
     }
 }
 
+const deleteCourse = async( req , res = response ) => {
+
+    const { id } = req.params;
+
+    console.log(req);
+
+    try{
+
+        const course = await Course.findById( id );
+
+        if( !course ){
+            return res.status(404).json({
+                ok: false,
+                errorMessage: 'El curso no existe. Verifique el ID e intente nuevamnte.'
+            });
+        }
+
+        const ownerExists = await User.findById( course.owner );
+
+        if( !ownerExists ){
+            return res.status(400).json({
+                ok: false,
+                errorMessage: 'El usuario no existe. Verifique el ID e intente nuevamnte.'
+            });
+        }
+
+
+    
+    }
+    catch( error ){
+        console.log(error);
+
+        return res.status(500).json({
+            ok: false,
+            errorMessage: 'Hubo un error al eliminar el curso. Intente nuevamente.'
+        })
+    }
+}
+
 
 module.exports = {
     getAllCourses,
     createCourse,
     updateCourse,
+    deleteCourse,
 }

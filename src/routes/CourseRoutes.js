@@ -7,6 +7,7 @@
 
 const { Router } = require('express');
 const { getAllCourses , createCourse , updateCourse , deleteCourse } = require('../controllers/CourseController');
+const { validateJWT } = require('../middlewares/validateJWT');
 
 
 const router = Router();
@@ -20,18 +21,21 @@ router.get(
 // Create Course
 router.post(
   '/new',
+  validateJWT,
   createCourse
 )
 
 // Edit Course 
 router.put(
   '/update/:id',
-  updateCourse
+  validateJWT,
+  updateCourse,
 )
 
 // Delete Course
 router.delete(
   '/delete/:id',
+  validateJWT,
   deleteCourse
 )
 

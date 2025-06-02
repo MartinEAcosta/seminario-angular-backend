@@ -131,8 +131,6 @@ const deleteCourse = async( req , res = response ) => {
 
     const { id } = req.params;
 
-    console.log(req);
-
     try{
 
         const course = await Course.findById( id );
@@ -153,6 +151,20 @@ const deleteCourse = async( req , res = response ) => {
             });
         }
 
+        if( ownerExists._id.toString() !== req._id.toString() ){
+            return res.status(403).json({
+                ok: false,
+                errorMessage: 'No tiene permiso para eliminar este curso.',
+            });
+        }
+
+        await Course.findByIdAndDelete( id );   
+         
+        return res.status(200).json({
+            ok: true,
+            errorMessage: undefined,
+            course,
+        });
 
     
     }

@@ -19,7 +19,6 @@ const registerUser = async( req , res = response ) => {
             });
         }
 
-        // TODO : Hashear la pass y agregar JWT
         userRef = new User( req.body );
 
         const salt =  bcrypt.genSaltSync( );

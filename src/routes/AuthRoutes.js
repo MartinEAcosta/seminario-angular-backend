@@ -22,7 +22,7 @@ router.post(
         check('username', 'El nombre de usuario no puede estar vació.').notEmpty(),
         check('username', 'El nombre de usuario debe contener al menos 3 caracteres.').isLength({ min : 3}),
         check('email', 'El correo no es válido.').isEmail(),
-        check('password', 'La contraseña debe contener al menos 6 caracteres.').isEmail(),
+        check('password', 'La contraseña debe contener al menos 6 caracteres.').isLength({ min : 6}),
         validateFields,
     ],
     registerUser,

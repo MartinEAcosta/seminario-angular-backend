@@ -6,15 +6,13 @@
 */ 
 
 const { Router } = require('express');
-const { registerUser , loginUser } = require('../controllers/AuthController');
+const { registerUser , loginUser , reloadToken } = require('../controllers/AuthController');
 const { check } = require('express-validator');
 const { validateFields } = require('../middlewares/validateFields'); 
+const { validateJWT } = require('../middlewares/validateJWT'); 
 
 
 const router = Router();
-
-
-// TODO: Agregar los middlewares de verificación.
 
 router.post( 
     '/new',
@@ -33,5 +31,13 @@ router.post(
     '/',
     loginUser
 );
+
+router.get(
+    '/renew',
+    [
+        validateJWT,
+    ],
+    reloadToken
+)
 
 module.exports = router;

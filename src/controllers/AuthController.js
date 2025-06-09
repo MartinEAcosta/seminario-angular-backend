@@ -85,7 +85,41 @@ const loginUser = async( req , res = response ) => {
     }
 }
 
+const reloadToken = async( req , res = response ) => {
+
+    const { _id } = req;
+
+    try{
+
+        const userRef = await User.findById( _id );
+
+        if( !userRef ){
+            return res.status(404).json({
+                ok : false,
+                errorMessage : 'Usuario no encontrado.'
+            });
+        }
+
+        const token = await generateJWT( userRef._id , userRef.email );
+
+        return res.status(200).json({
+            ok : true,
+            errorMessage : undefined,
+            userRef,
+            token,
+        });
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({
+            ok : false,
+            errorMessage : "Hubo un error al recargar el token. Intente nuevamente."
+        });
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
+    reloadToken,
 }

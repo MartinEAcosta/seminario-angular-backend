@@ -87,7 +87,7 @@ const loginUser = async( req , res = response ) => {
 
 const reloadToken = async( req , res = response ) => {
 
-    const { _id } = req;
+    const { _id , email } = req;
 
     try{
 
@@ -100,7 +100,7 @@ const reloadToken = async( req , res = response ) => {
             });
         }
 
-        const token = await generateJWT( userRef._id , userRef.email );
+        const token = await generateJWT( _id , email );
 
         return res.status(200).json({
             ok : true,

@@ -1,6 +1,7 @@
 const { response } = require('express');
 const Course = require('../models/CourseModel');
 const User = require('../models/UserModel');
+const { ok } = require('assert');
 
 const getAllCourses = async ( req , res = response ) => {
     try{
@@ -24,6 +25,35 @@ const getAllCourses = async ( req , res = response ) => {
             errorMessage: 'Hubo un error al obtener los cursos. Intente nuevamente.',
         });
     } 
+}
+
+const getCourseById = async ( req , res = response ) => {
+
+    const { id } = req.params;
+
+    try{
+        const course = await Course.findById( id );
+
+        if( course ){
+            return res.status(200).json({
+                ok: true,
+                errorMessage: undefined,
+                course,
+            });
+        }
+
+        return res.status(404).json({
+            ok: false,
+            errorMessage: 'El curso con el id indicado no fue encontrado.'
+        })
+
+    }
+    catch(error) {
+        return res.status(500).json({
+            ok: false,
+            errorMessage: 'Hubo un error al encontrar el curso indicado.'
+        })
+    }
 }
 
 const createCourse = async ( req , res = response ) => {
@@ -181,6 +211,7 @@ const deleteCourse = async( req , res = response ) => {
 
 module.exports = {
     getAllCourses,
+    getCourseById,
     createCourse,
     updateCourse,
     deleteCourse,

@@ -14,8 +14,7 @@ const CourseModel = Schema({
     },
 
     imgURL : {
-        type: String,
-        required: true,
+        type: [String],
     },
 
     owner : {
@@ -26,7 +25,7 @@ const CourseModel = Schema({
 
     price : {
         type: Number,
-        required: true,
+        default: 0,
     },
 
     offer : {
@@ -38,7 +37,6 @@ const CourseModel = Schema({
         type: Number,
         default: undefined,
     },
-
 
 });
 

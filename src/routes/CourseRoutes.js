@@ -7,7 +7,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getAllCourses , createCourse , updateCourse , deleteCourse } = require('../controllers/CourseController');
+const { getAllCourses , createCourse , updateCourse , deleteCourse, getCourseById } = require('../controllers/CourseController');
 const { validateJWT } = require('../middlewares/validateJWT');
 const { validateFields } = require('../middlewares/validateFields');
 
@@ -20,15 +20,21 @@ router.get(
   getAllCourses
 )
 
+router.get(
+  '/:id',
+  [
+    check( 'id' , 'El id no puede estar vació.' ).notEmpty(),
+  ],
+  getCourseById
+)
+
 // Create Course
 router.post(
   '/new',
   [
     check( 'title', 'El titulo no puede estar vació.' ).notEmpty(),
     check( 'description', 'La descripción no puede estar vacia.' ).notEmpty(),
-    check( 'imgURL', 'La URL de la imagen no puede estar vacia.' ).notEmpty(),
     check( 'owner', 'El propietario no puede estar vacio.' ).notEmpty(),
-    check( 'price', 'El precio no puede estar vacio.' ).notEmpty(),
     validateFields,
     validateJWT,
   ],

@@ -1,7 +1,6 @@
 const { response } = require('express');
 const Course = require('../models/CourseModel');
 const User = require('../models/UserModel');
-const { ok } = require('assert');
 
 const getAllCourses = async ( req , res = response ) => {
     try{
@@ -13,7 +12,7 @@ const getAllCourses = async ( req , res = response ) => {
         return res.status(200).json({
             ok: true, 
             errorMessage: undefined,
-            courses,
+            data: courses,
         });
 
     }
@@ -38,7 +37,7 @@ const getCourseById = async ( req , res = response ) => {
             return res.status(200).json({
                 ok: true,
                 errorMessage: undefined,
-                course,
+                data: course,
             });
         }
 
@@ -59,7 +58,6 @@ const getCourseById = async ( req , res = response ) => {
 const createCourse = async ( req , res = response ) => {
 
     const { title , description , imgURL , owner , price , offer , capacity } = req.body;
-
     try{
 
         const existUser = await User.findById( owner );
@@ -80,7 +78,7 @@ const createCourse = async ( req , res = response ) => {
             return res.status(201).json({
                 ok: true,
                 errorMessage: undefined,
-                course,
+                data: course,
             });
         }
         else{
@@ -143,7 +141,7 @@ const updateCourse = async( req , res = response ) => {
             return res.status(200).json({
                 ok: true,
                 errorMessage: undefined,
-                course,
+                data: course,
             });
         }
     }
@@ -193,14 +191,12 @@ const deleteCourse = async( req , res = response ) => {
         return res.status(200).json({
             ok: true,
             errorMessage: undefined,
-            course,
+            data: course,
         });
 
     
     }
     catch( error ){
-        console.log(error);
-
         return res.status(500).json({
             ok: false,
             errorMessage: 'Hubo un error al eliminar el curso. Intente nuevamente.'

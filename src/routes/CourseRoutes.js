@@ -46,10 +46,8 @@ router.put(
   '/update/:id',
   [
     check( 'title', 'El titulo no puede estar vació.' ).notEmpty(),
-    check( 'title', 'El titulo debe tener al menos 5 caracteres.').isLength({ min : 5}),
     check( 'description', 'La descripción no puede estar vacia.' ).notEmpty(),
     check( 'owner', 'El propietario no puede estar vacio.' ).notEmpty(),
-    check( 'price', 'El precio no puede estar vacio.' ).notEmpty(),
     validateFields,
     validateJWT,
   ],

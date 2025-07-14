@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { type } = require('os');
 
 const CourseModel = Schema({
 
@@ -11,6 +10,11 @@ const CourseModel = Schema({
     description : { 
         type: String,
         required: true,
+    },
+
+    category : {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
     },
 
     imgURL : {

@@ -38,11 +38,10 @@ const registerUser = async( req , res = response ) => {
         });
     }
     catch(error){
-
         console.log(error);
         return res.status(500).json({
             ok : false,
-            errorMessage : "Hubo un error en la creación del usuario. Intente nuevamente."
+            errorMessage : "Hubo un error en la creación del usuario. Intente nuevamente.",
         });
     }
 }
@@ -62,7 +61,7 @@ const loginUser = async( req , res = response ) => {
             if( !isPasswordLegit ){
                 return res.status(404).json({
                     ok : false, 
-                    errorMessage : 'Chequee las credenciales y vuelva a intentarlo.'
+                    errorMessage : 'Chequee las credenciales y vuelva a intentarlo.',
                 });
             }
 
@@ -75,12 +74,16 @@ const loginUser = async( req , res = response ) => {
                 token,
             });
         }
+        return res.status(404).json({
+            ok : false,
+            errorMessage : `No se encontro un usuario vinculado a "${email}"`,
+        });
     }
     catch(error) {
         console.log(error);
         return res.status(500).json({
             ok : false,
-            errorMessage : "Hubo un error en el inicio de sesión. Intente nuevamente."
+            errorMessage : "Hubo un error en el inicio de sesión. Intente nuevamente.",
         });
     }
 }
@@ -96,7 +99,7 @@ const reloadToken = async( req , res = response ) => {
         if( !userRef ){
             return res.status(404).json({
                 ok : false,
-                errorMessage : 'Usuario no encontrado.'
+                errorMessage : 'Usuario no encontrado.',
             });
         }
 
@@ -113,7 +116,7 @@ const reloadToken = async( req , res = response ) => {
         console.log(error);
         return res.status(500).json({
             ok : false,
-            errorMessage : "Hubo un error al recargar el token. Intente nuevamente."
+            errorMessage : "Hubo un error al recargar el token. Intente nuevamente.",
         });
     }
 }
